@@ -1,0 +1,51 @@
+//
+//  EmployeeTableViewCell.swift
+//  test2
+//
+//  Created by Карина Каримова on 26.06.2021.
+//
+
+
+import UIKit
+import Contacts
+import ContactsUI
+
+class EmpoyeeCell: UITableViewCell {
+    var safeArea: UILayoutGuide!
+    let contactsIcon = UIButton(type: .custom)
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style , reuseIdentifier: reuseIdentifier)
+        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupView(){
+        safeArea = layoutMarginsGuide
+        setupButton()
+    }
+
+    func setupButton(){
+        let imageName = "contacts"
+        contactsIcon.setImage(UIImage(named: imageName), for: .normal)
+        
+        addSubview(contactsIcon)
+
+        contactsIcon.translatesAutoresizingMaskIntoConstraints = false
+        contactsIcon.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
+        contactsIcon.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        contactsIcon.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        contactsIcon.heightAnchor.constraint(equalToConstant: 35).isActive = true
+    }
+    
+//    func didTapContact(contact: CNContact){
+//        let vc = CNContactViewController(for: contact)
+//        present(UINa)
+//    }
+    
+}
+
