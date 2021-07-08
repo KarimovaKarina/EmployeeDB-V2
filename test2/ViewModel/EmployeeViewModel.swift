@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ContactsUI
 
 class EmployeeViewModel {
     private var apiService = ApiService()
@@ -14,7 +15,7 @@ class EmployeeViewModel {
     func fetchPopularMoviesData(completion: @escaping () -> ()) {
         
         // weak self - prevent retain cycles
-        apiService.getPopularMoviesData { [weak self] (result) in
+        apiService.getEmployeesData { [weak self] (result) in
             
             switch result {
             case .success(let listOf):
@@ -67,7 +68,32 @@ class EmployeeViewModel {
         return datasource
     }
     
-    func numberOfRowsInSectionForDetailVC() {
+    func fetchPhoneContacts() -> [CNContact]{
+        let contactStore = CNContactStore()
+        var contacts = [CNContact]()
+        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)]
+        let request = CNContactFetchRequest(keysToFetch: keys)
+
+        do {
+            try contactStore.enumerateContacts(with: request) { (contact, stop) in
+                contacts.append(contact)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return contacts
+    }
+    
+    func matchContacts(_ fullName: String) -> Bool {
+        let phoneContacts = fetchPhoneContacts()
         
+            for contact in phoneContacts {
+                let name = contact.familyName + " " + contact.givenName
+                if name == fullName {
+                    print(name)
+                    return true
+                }
+           }
+        return false
     }
 }

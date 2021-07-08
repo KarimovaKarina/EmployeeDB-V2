@@ -11,7 +11,7 @@ class ApiService {
     
     private var dataTask: URLSessionDataTask?
     
-    func getPopularMoviesData(completion: @escaping (Result<EmployeesList, Error>) -> Void) {
+    func getEmployeesData(completion: @escaping (Result<EmployeesList, Error>) -> Void) {
         
         let employeesListURL = "https://tallinn-jobapp.aw.ee/employee_list/"
         
@@ -57,3 +57,56 @@ class ApiService {
         dataTask?.resume()
     }
 }
+//import Foundation
+//
+//class ApiService {
+//
+//    private var dataTask: URLSessionDataTask?
+//
+//    func getEmployeesData(completion: @escaping (Result<EmployeesList, Error>) -> Void) {
+//        let group = DispatchGroup()
+//
+//        let urls = [
+//            URL(string: "https://tallinn-jobapp.aw.ee/employee_list/"),
+//            URL(string: "https://tartu-jobapp.aw.ee/employee_list")
+//        ]
+////        let employeesListURL = "https://tallinn-jobapp.aw.ee/employee_list/"
+//        for url in urls {
+//            group.enter()
+//        guard let url = url else {return}
+//
+//        dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
+//
+//            if let error = error {
+//                completion(.failure(error))
+//                print("DataTask error: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            guard let response = response as? HTTPURLResponse else {
+//                print("Empty Response")
+//                return
+//            }
+//            print("Response status code: \(response.statusCode)")
+//
+//            guard let data = data else {
+//                print("Empty Data")
+//                return
+//            }
+//
+//            do {
+//                let decoder = JSONDecoder()
+//                let jsonData = try decoder.decode(EmployeesList.self, from: data)
+//
+//                DispatchQueue.main.async {
+//                    completion(.success(jsonData))
+//                }
+//            } catch let error {
+//                completion(.failure(error))
+//            }
+//            group.leave()
+//        }
+//        dataTask?.resume()
+//        }
+//    }
+//}

@@ -10,9 +10,11 @@ import UIKit
 import Contacts
 import ContactsUI
 
+
 class EmpoyeeCell: UITableViewCell {
     var safeArea: UILayoutGuide!
     let contactsIcon = UIButton(type: .custom)
+    var contacts = EmployeeViewModel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style , reuseIdentifier: reuseIdentifier)
@@ -27,9 +29,11 @@ class EmpoyeeCell: UITableViewCell {
     func setupView(){
         safeArea = layoutMarginsGuide
         setupButton()
+        
     }
 
     func setupButton(){
+        
         let imageName = "contacts"
         contactsIcon.setImage(UIImage(named: imageName), for: .normal)
         
@@ -40,12 +44,26 @@ class EmpoyeeCell: UITableViewCell {
         contactsIcon.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         contactsIcon.widthAnchor.constraint(equalToConstant: 35).isActive = true
         contactsIcon.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        contactsIcon.addTarget(self,
+                                action: #selector(buttonAction),
+                                for: .touchUpInside)
+        self.isUserInteractionEnabled = true
+
+        
     }
     
-//    func didTapContact(contact: CNContact){
-//        let vc = CNContactViewController(for: contact)
-//        present(UINa)
-//    }
+    func check(str: String){
+        if contacts.matchContacts(str){
+            contactsIcon.isHidden = false
+            
+        } else {
+            contactsIcon.isHidden = true
+        }
+    }
+    
+    @objc func buttonAction(_ sender: UIButton!) {
+            print("Button pressed")
+        }
     
 }
 

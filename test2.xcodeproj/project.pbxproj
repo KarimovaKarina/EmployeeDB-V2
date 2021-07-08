@@ -77,7 +77,6 @@
 				6E181D652687A9D300B20D77 /* Assets.xcassets */,
 				6E181D672687A9D300B20D77 /* LaunchScreen.storyboard */,
 				6E181D6A2687A9D300B20D77 /* Info.plist */,
-				6E181D80268B3DD600B20D77 /* EmployeeDetailViewController.swift */,
 			);
 			path = test2;
 			sourceTree = "<group>";
@@ -117,6 +116,7 @@
 		6E181D7F2687AF3100B20D77 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6E181D80268B3DD600B20D77 /* EmployeeDetailViewController.swift */,
 				6E181D602687A9CF00B20D77 /* ViewController.swift */,
 			);
 			path = Controller;

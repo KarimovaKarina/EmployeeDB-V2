@@ -20,16 +20,7 @@ class EmployeeDetailViewController: UIViewController {
         safeArea = view.layoutMarginsGuide
         setupTableView()
     }
-//    func setupLabels(){
-//        view.addSubview(nameLabel)
-//
-//        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-//        nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        nameLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 50).isActive = true
-//        nameLabel.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.5).isActive = true
-//        nameLabel.heightAnchor.constraint(equalToConstant: 12).isActive = true
-//
-//    }
+
     func setupTableView(){
         view.addSubview(tableView)
 
@@ -101,6 +92,5 @@ extension EmployeeDetailViewController: UITableViewDataSource {
         default:
             return UITableViewCell()
         }
-        return UITableViewCell()
     }
 }

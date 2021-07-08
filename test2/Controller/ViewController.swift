@@ -9,12 +9,14 @@ import UIKit
 
 
 class ViewController: UIViewController {
-
+    
     let tableView = UITableView()
     var safeArea: UILayoutGuide!
     
     private var viewModel = EmployeeViewModel()
     var positions = ["ANDROID", "IOS", "OTHER", "PM", "SALES", "TESTER", "WEB"]
+    
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,29 +25,33 @@ class ViewController: UIViewController {
         safeArea = view.safeAreaLayoutGuide
         setupTableView()
         loadData()
-
+        
+        refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        tableView.addSubview(refreshControl)
     }
-    func loadData(){
+    
+    @objc func loadData(){
         viewModel.fetchPopularMoviesData { [weak self] in
-                   self?.tableView.dataSource = self
-                   self?.tableView.reloadData()
-               }
+            self?.tableView.dataSource = self
+            self?.tableView.reloadData()
+            self?.refreshControl.endRefreshing()
+        }
     }
     
     func setupTableView(){
         view.addSubview(tableView)
-
+        
         tableView.dataSource = self
         tableView.delegate = self
         
         tableView.register(EmpoyeeCell.self, forCellReuseIdentifier: "cellID")
-
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
+        
     }
 }
 // MARK: - UITableViewDataSource
@@ -78,12 +84,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let dict = viewModel.groupEmployee()
         
         guard let datasource = dict[positions[indexPath.section]] else {
-                    return UITableViewCell()
+            return UITableViewCell()
         }
-        cell.textLabel?.text = datasource[indexPath.row].lname + " " + datasource[indexPath.row].fname
+        let fullName = datasource[indexPath.row].lname + " " + datasource[indexPath.row].fname
+        cell.check(str: fullName)
+        cell.textLabel?.text = fullName
         return cell
     }
-    
+   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let dict = viewModel.groupEmployee()
         let employee = dict[positions[indexPath.section]]?[indexPath.row]
