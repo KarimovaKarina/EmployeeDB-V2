@@ -11,6 +11,7 @@ import ContactsUI
 class EmployeeViewModel {
     private var apiService = ApiService()
     private var employees = [EmployeeData]()
+    var contact: CNContact?
     
     func fetchPopularMoviesData(completion: @escaping () -> ()) {
         
@@ -71,8 +72,10 @@ class EmployeeViewModel {
     func fetchPhoneContacts() -> [CNContact]{
         let contactStore = CNContactStore()
         var contacts = [CNContact]()
-        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)]
-        let request = CNContactFetchRequest(keysToFetch: keys)
+//        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)]
+        let keys2: [CNKeyDescriptor] = [CNContactViewController.descriptorForRequiredKeys()]
+
+        let request = CNContactFetchRequest(keysToFetch: keys2)
 
         do {
             try contactStore.enumerateContacts(with: request) { (contact, stop) in
@@ -87,13 +90,14 @@ class EmployeeViewModel {
     func matchContacts(_ fullName: String) -> Bool {
         let phoneContacts = fetchPhoneContacts()
         
-            for contact in phoneContacts {
-                let name = contact.familyName + " " + contact.givenName
-                if name == fullName {
-                    print(name)
-                    return true
-                }
-           }
+        for contact in phoneContacts {
+            let name = contact.familyName + " " + contact.givenName
+            if name == fullName {
+                self.contact = contact
+                
+                return true
+            }
+        }
         return false
     }
 }

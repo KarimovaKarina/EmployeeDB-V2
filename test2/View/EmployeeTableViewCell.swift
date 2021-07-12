@@ -10,15 +10,15 @@ import UIKit
 import Contacts
 import ContactsUI
 
-
 class EmpoyeeCell: UITableViewCell {
     var safeArea: UILayoutGuide!
     let contactsIcon = UIButton(type: .custom)
     var contacts = EmployeeViewModel()
+    var onTap: ((CNContact) -> Void)?
+
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style , reuseIdentifier: reuseIdentifier)
-        
         setupView()
     }
     
@@ -37,7 +37,7 @@ class EmpoyeeCell: UITableViewCell {
         let imageName = "contacts"
         contactsIcon.setImage(UIImage(named: imageName), for: .normal)
         
-        addSubview(contactsIcon)
+        contentView.addSubview(contactsIcon)
 
         contactsIcon.translatesAutoresizingMaskIntoConstraints = false
         contactsIcon.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
@@ -47,9 +47,6 @@ class EmpoyeeCell: UITableViewCell {
         contactsIcon.addTarget(self,
                                 action: #selector(buttonAction),
                                 for: .touchUpInside)
-        self.isUserInteractionEnabled = true
-
-        
     }
     
     func check(str: String){
@@ -62,8 +59,9 @@ class EmpoyeeCell: UITableViewCell {
     }
     
     @objc func buttonAction(_ sender: UIButton!) {
-            print("Button pressed")
+        if let data = contacts.contact{
+            onTap?(data)
         }
-    
+    }
 }
 

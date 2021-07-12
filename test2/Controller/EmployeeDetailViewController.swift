@@ -19,6 +19,8 @@ class EmployeeDetailViewController: UIViewController {
         
         safeArea = view.layoutMarginsGuide
         setupTableView()
+        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationController?.navigationBar.tintColor = .black
     }
 
     func setupTableView(){
@@ -40,17 +42,17 @@ class EmployeeDetailViewController: UIViewController {
 extension EmployeeDetailViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 5
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let titles = ["First Name", "Last Name", "Position", "E-mail", "Phone", "Projects"]
+        let titles = ["Full Name", "Position", "E-mail", "Phone", "Projects"]
         return titles[section]
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var number = 1
-        if section == 5 {
+        if section == 4 {
             if let count = employeeData?.projects?.count{
                 number = count
             }
@@ -62,18 +64,17 @@ extension EmployeeDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         switch indexPath.section {
         case 0:
-            cell.textLabel?.text = employeeData?.fname
+            if let name = employeeData?.fname, let lastname = employeeData?.lname{
+                cell.textLabel?.text = name + " " + lastname
+            }
             return cell
         case 1:
-            cell.textLabel?.text = employeeData?.lname
-            return cell
-        case 2:
             cell.textLabel?.text = employeeData?.position
             return cell
-        case 3:
+        case 2:
             cell.textLabel?.text = employeeData?.contact_details.email
             return cell
-        case 4:
+        case 3:
             let phone = employeeData?.contact_details.phone
             if ((phone?.isEmpty) != nil) {
                 cell.textLabel?.text = phone
@@ -82,7 +83,7 @@ extension EmployeeDetailViewController: UITableViewDataSource {
                 cell.textLabel?.text = "-"
             }
             return cell
-        case 5:
+        case 4:
             if let projects = employeeData?.projects{
                 cell.textLabel?.text = projects[indexPath.row]
             } else {

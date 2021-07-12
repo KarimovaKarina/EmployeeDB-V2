@@ -6,15 +6,18 @@
 //
 
 import UIKit
+import Contacts
+import ContactsUI
 
 
 class ViewController: UIViewController {
     
     let tableView = UITableView()
     var safeArea: UILayoutGuide!
-    
     private var viewModel = EmployeeViewModel()
     var positions = ["ANDROID", "IOS", "OTHER", "PM", "SALES", "TESTER", "WEB"]
+    
+
     
     let refreshControl = UIRefreshControl()
     
@@ -25,9 +28,10 @@ class ViewController: UIViewController {
         safeArea = view.safeAreaLayoutGuide
         setupTableView()
         loadData()
-        
+        self.navigationController?.navigationBar.topItem?.title = "EmployeeDB"
         refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
         tableView.addSubview(refreshControl)
+
     }
     
     @objc func loadData(){
@@ -89,6 +93,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let fullName = datasource[indexPath.row].lname + " " + datasource[indexPath.row].fname
         cell.check(str: fullName)
         cell.textLabel?.text = fullName
+        cell.onTap = { [weak self] (contact) in
+            let vc = CNContactViewController(for: contact)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
         return cell
     }
    
@@ -97,7 +105,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let employee = dict[positions[indexPath.section]]?[indexPath.row]
         let employeeDetailVC = EmployeeDetailViewController()
         employeeDetailVC.employeeData = employee
-        self.present(employeeDetailVC, animated: true )
+        self.navigationController?.pushViewController(employeeDetailVC, animated: true)
     }
 }
+
 
