@@ -34,7 +34,7 @@ class EmpoyeeCell: UITableViewCell {
 
     func setupButton(){
         
-        let imageName = "contacts"
+        let imageName = "contact-book"
         contactsIcon.setImage(UIImage(named: imageName), for: .normal)
         
         contentView.addSubview(contactsIcon)

@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     var safeArea: UILayoutGuide!
     private var viewModel = EmployeeViewModel()
     var positions = ["ANDROID", "IOS", "OTHER", "PM", "SALES", "TESTER", "WEB"]
-    
+    var contact1 = CNContact()
 
     
     let refreshControl = UIRefreshControl()
@@ -29,6 +29,9 @@ class ViewController: UIViewController {
         setupTableView()
         loadData()
         self.navigationController?.navigationBar.topItem?.title = "EmployeeDB"
+        self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 18)]
+        
         refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
         tableView.addSubview(refreshControl)
 
@@ -71,10 +74,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         label.text = positions[section]
         vw.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.leadingAnchor.constraint(equalTo: vw.leadingAnchor, constant: 15).isActive = true
+        label.leadingAnchor.constraint(equalTo: vw.leadingAnchor, constant: 18).isActive = true
         label.centerYAnchor.constraint(equalTo: vw.centerYAnchor).isActive = true
-        vw.backgroundColor = #colorLiteral(red: 0.1078080311, green: 0.261521101, blue: 0.2835475802, alpha: 1)
+        vw.backgroundColor = #colorLiteral(red: 0.08180698007, green: 0.1980696023, blue: 0.2411591411, alpha: 1)
         label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         return vw
     }
     
@@ -106,6 +110,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let employeeDetailVC = EmployeeDetailViewController()
         employeeDetailVC.employeeData = employee
         self.navigationController?.pushViewController(employeeDetailVC, animated: true)
+        
     }
 }
 

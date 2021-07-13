@@ -94,7 +94,6 @@ class EmployeeViewModel {
             let name = contact.familyName + " " + contact.givenName
             if name == fullName {
                 self.contact = contact
-                
                 return true
             }
         }
