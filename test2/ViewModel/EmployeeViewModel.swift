@@ -9,25 +9,10 @@ import Foundation
 import ContactsUI
 
 class EmployeeViewModel {
-    private var apiService = ApiService()
-    private var employees = [EmployeeData]()
+    private var resource = EmployeeResource()
+    var employees = [EmployeeData]()
     var contact: CNContact?
-    
-    func fetchPopularMoviesData(completion: @escaping () -> ()) {
-        
-        // weak self - prevent retain cycles
-        apiService.getEmployeesData { [weak self] (result) in
-            
-            switch result {
-            case .success(let listOf):
-                self?.employees = listOf.employees
-                completion()
-            case .failure(let error):
-                // Something is wrong with the JSON file or the model
-                print("Error processing json data: \(error)")
-            }
-        }
-    }
+
     
     func numberOfSections() -> Int {
         var count = 0
@@ -52,6 +37,7 @@ class EmployeeViewModel {
     func cellForRowAt (indexPath: IndexPath) -> EmployeeData {
         return employees[indexPath.row]
     }
+    
     
     func groupEmployee() -> [String:[EmployeeData]] {
         var datasource =  [String: [EmployeeData]]()

@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     private var viewModel = EmployeeViewModel()
     var positions = ["ANDROID", "IOS", "OTHER", "PM", "SALES", "TESTER", "WEB"]
     var contact1 = CNContact()
+    let resource = EmployeeResource()
 
     
     let refreshControl = UIRefreshControl()
@@ -31,19 +32,22 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = "EmployeeDB"
         self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 18)]
-        
         refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
         tableView.addSubview(refreshControl)
 
     }
     
     @objc func loadData(){
-        viewModel.fetchPopularMoviesData { [weak self] in
-            self?.tableView.dataSource = self
-            self?.tableView.reloadData()
-            self?.refreshControl.endRefreshing()
+        resource.getEmployee() { (response) in
+            self.viewModel.employees = response!
+            DispatchQueue.main.async {
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+            }
         }
     }
+    
     
     func setupTableView(){
         view.addSubview(tableView)
