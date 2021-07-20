@@ -10,7 +10,7 @@ import Contacts
 import ContactsUI
 
 
-class ViewController: UIViewController {
+class EmployeeListViewController: UIViewController {
     
     let tableView = UITableView()
     var safeArea: UILayoutGuide!
@@ -27,12 +27,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         safeArea = view.safeAreaLayoutGuide
         setupSearchController()
         setupTableView()
         loadData()
-        
         
         refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
         tableView.addSubview(refreshControl)
@@ -94,8 +92,10 @@ class ViewController: UIViewController {
         
     }
 }
-// MARK: - UITableViewDataSource
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension EmployeeListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
@@ -168,14 +168,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
     }
 }
-extension ViewController: UISearchResultsUpdating {
+extension EmployeeListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         filterData(for: searchController.searchBar.text ?? "")
     }
 }
 
-extension ViewController: UISearchBarDelegate{
+extension EmployeeListViewController: UISearchBarDelegate{
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         setupSearchController()
     }

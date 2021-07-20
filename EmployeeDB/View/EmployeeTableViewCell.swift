@@ -52,7 +52,6 @@ class EmpoyeeCell: UITableViewCell {
     func check(str: String){
         if contacts.matchContacts(str){
             contactsIcon.isHidden = false
-            
         } else {
             contactsIcon.isHidden = true
         }

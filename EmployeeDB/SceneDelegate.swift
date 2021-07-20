@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
 
-        let viewController = ViewController()
+        let viewController = EmployeeListViewController()
         let navViewController = UINavigationController(rootViewController: viewController)
         viewController.navigationItem.title = "EmployeeDB"
         viewController.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 18)]
