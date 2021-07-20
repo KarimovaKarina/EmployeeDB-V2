@@ -22,7 +22,7 @@ class EmployeeDetailViewController: UIViewController {
         
         safeArea = view.layoutMarginsGuide
         setupTableView()
-        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.navigationController?.navigationBar.tintColor = .white
         setupButton()
         
