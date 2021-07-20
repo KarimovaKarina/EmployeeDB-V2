@@ -145,6 +145,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = fullName
             cell.onTap = { [weak self] (contact) in
                 let vc = CNContactViewController(for: contact)
+                vc.navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
                 self?.navigationController?.pushViewController(vc, animated: true)
             }
             return cell

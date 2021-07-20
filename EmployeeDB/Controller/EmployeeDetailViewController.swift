@@ -71,6 +71,7 @@ class EmployeeDetailViewController: UIViewController {
     @objc func buttonAction(_ sender: UIButton!) {
         if let data = viewModel.contact {
         let vc = CNContactViewController(for: data)
+        vc.navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         self.navigationController?.pushViewController(vc, animated: true)
         print("tapped")
         }

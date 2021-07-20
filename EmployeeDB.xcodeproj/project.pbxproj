@@ -19,11 +19,22 @@
 		6E181D782687AB7700B20D77 /* EmployeeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E181D772687AB7700B20D77 /* EmployeeViewModel.swift */; };
 		6E181D7E2687AF0700B20D77 /* EmployeeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E181D7D2687AF0700B20D77 /* EmployeeTableViewCell.swift */; };
 		6E181D81268B3DD600B20D77 /* EmployeeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E181D80268B3DD600B20D77 /* EmployeeDetailViewController.swift */; };
+		6E9550E326A6C71600F731B9 /* EmployeeDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9550E226A6C71600F731B9 /* EmployeeDBTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6E9550E526A6C71600F731B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E181D512687A9CF00B20D77 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E181D582687A9CF00B20D77;
+			remoteInfo = EmployeeDB;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6E0AF40726A3061900B17CFD /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
-		6E181D592687A9CF00B20D77 /* test2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E181D592687A9CF00B20D77 /* EmployeeDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmployeeDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E181D5C2687A9CF00B20D77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E181D5E2687A9CF00B20D77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6E181D602687A9CF00B20D77 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,10 +47,20 @@
 		6E181D772687AB7700B20D77 /* EmployeeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeViewModel.swift; sourceTree = "<group>"; };
 		6E181D7D2687AF0700B20D77 /* EmployeeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeTableViewCell.swift; sourceTree = "<group>"; };
 		6E181D80268B3DD600B20D77 /* EmployeeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDetailViewController.swift; sourceTree = "<group>"; };
+		6E9550E026A6C71600F731B9 /* EmployeeDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmployeeDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E9550E226A6C71600F731B9 /* EmployeeDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDBTests.swift; sourceTree = "<group>"; };
+		6E9550E426A6C71600F731B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6E181D562687A9CF00B20D77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E9550DD26A6C71600F731B9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -52,7 +73,8 @@
 		6E181D502687A9CF00B20D77 = {
 			isa = PBXGroup;
 			children = (
-				6E181D5B2687A9CF00B20D77 /* test2 */,
+				6E181D5B2687A9CF00B20D77 /* EmployeeDB */,
+				6E9550E126A6C71600F731B9 /* EmployeeDBTests */,
 				6E181D5A2687A9CF00B20D77 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,12 +82,13 @@
 		6E181D5A2687A9CF00B20D77 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E181D592687A9CF00B20D77 /* test2.app */,
+				6E181D592687A9CF00B20D77 /* EmployeeDB.app */,
+				6E9550E026A6C71600F731B9 /* EmployeeDBTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E181D5B2687A9CF00B20D77 /* test2 */ = {
+		6E181D5B2687A9CF00B20D77 /* EmployeeDB */ = {
 			isa = PBXGroup;
 			children = (
 				6E181D7F2687AF3100B20D77 /* Controller */,
@@ -80,7 +103,7 @@
 				6E181D672687A9D300B20D77 /* LaunchScreen.storyboard */,
 				6E181D6A2687A9D300B20D77 /* Info.plist */,
 			);
-			path = test2;
+			path = EmployeeDB;
 			sourceTree = "<group>";
 		};
 		6E181D702687A9E400B20D77 /* Model */ = {
@@ -125,12 +148,21 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		6E9550E126A6C71600F731B9 /* EmployeeDBTests */ = {
+			isa = PBXGroup;
+			children = (
+				6E9550E226A6C71600F731B9 /* EmployeeDBTests.swift */,
+				6E9550E426A6C71600F731B9 /* Info.plist */,
+			);
+			path = EmployeeDBTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6E181D582687A9CF00B20D77 /* test2 */ = {
+		6E181D582687A9CF00B20D77 /* EmployeeDB */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E181D6D2687A9D300B20D77 /* Build configuration list for PBXNativeTarget "test2" */;
+			buildConfigurationList = 6E181D6D2687A9D300B20D77 /* Build configuration list for PBXNativeTarget "EmployeeDB" */;
 			buildPhases = (
 				6E181D552687A9CF00B20D77 /* Sources */,
 				6E181D562687A9CF00B20D77 /* Frameworks */,
@@ -140,10 +172,28 @@
 			);
 			dependencies = (
 			);
-			name = test2;
+			name = EmployeeDB;
 			productName = test2;
-			productReference = 6E181D592687A9CF00B20D77 /* test2.app */;
+			productReference = 6E181D592687A9CF00B20D77 /* EmployeeDB.app */;
 			productType = "com.apple.product-type.application";
+		};
+		6E9550DF26A6C71600F731B9 /* EmployeeDBTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E9550E726A6C71700F731B9 /* Build configuration list for PBXNativeTarget "EmployeeDBTests" */;
+			buildPhases = (
+				6E9550DC26A6C71600F731B9 /* Sources */,
+				6E9550DD26A6C71600F731B9 /* Frameworks */,
+				6E9550DE26A6C71600F731B9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E9550E626A6C71600F731B9 /* PBXTargetDependency */,
+			);
+			name = EmployeeDBTests;
+			productName = EmployeeDBTests;
+			productReference = 6E9550E026A6C71600F731B9 /* EmployeeDBTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -157,9 +207,13 @@
 					6E181D582687A9CF00B20D77 = {
 						CreatedOnToolsVersion = 12.5;
 					};
+					6E9550DF26A6C71600F731B9 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 6E181D582687A9CF00B20D77;
+					};
 				};
 			};
-			buildConfigurationList = 6E181D542687A9CF00B20D77 /* Build configuration list for PBXProject "test2" */;
+			buildConfigurationList = 6E181D542687A9CF00B20D77 /* Build configuration list for PBXProject "EmployeeDB" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -172,7 +226,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E181D582687A9CF00B20D77 /* test2 */,
+				6E181D582687A9CF00B20D77 /* EmployeeDB */,
+				6E9550DF26A6C71600F731B9 /* EmployeeDBTests */,
 			);
 		};
 /* End PBXProject section */
@@ -185,6 +240,13 @@
 				6E181D692687A9D300B20D77 /* LaunchScreen.storyboard in Resources */,
 				6E181D662687A9D300B20D77 /* Assets.xcassets in Resources */,
 				6E181D642687A9CF00B20D77 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E9550DE26A6C71600F731B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +269,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E9550DC26A6C71600F731B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E9550E326A6C71600F731B9 /* EmployeeDBTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6E9550E626A6C71600F731B9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E181D582687A9CF00B20D77 /* EmployeeDB */;
+			targetProxy = 6E9550E526A6C71600F731B9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6E181D622687A9CF00B20D77 /* Main.storyboard */ = {
@@ -351,7 +429,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = test2/Info.plist;
+				INFOPLIST_FILE = EmployeeDB/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -369,7 +447,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = test2/Info.plist;
+				INFOPLIST_FILE = EmployeeDB/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -381,10 +459,48 @@
 			};
 			name = Release;
 		};
+		6E9550E826A6C71700F731B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = EmployeeDBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karinak.EmployeeDBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EmployeeDB.app/EmployeeDB";
+			};
+			name = Debug;
+		};
+		6E9550E926A6C71700F731B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = EmployeeDBTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.karinak.EmployeeDBTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EmployeeDB.app/EmployeeDB";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6E181D542687A9CF00B20D77 /* Build configuration list for PBXProject "test2" */ = {
+		6E181D542687A9CF00B20D77 /* Build configuration list for PBXProject "EmployeeDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E181D6B2687A9D300B20D77 /* Debug */,
@@ -393,11 +509,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E181D6D2687A9D300B20D77 /* Build configuration list for PBXNativeTarget "test2" */ = {
+		6E181D6D2687A9D300B20D77 /* Build configuration list for PBXNativeTarget "EmployeeDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E181D6E2687A9D300B20D77 /* Debug */,
 				6E181D6F2687A9D300B20D77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E9550E726A6C71700F731B9 /* Build configuration list for PBXNativeTarget "EmployeeDBTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E9550E826A6C71700F731B9 /* Debug */,
+				6E9550E926A6C71700F731B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
