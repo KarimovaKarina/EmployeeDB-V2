@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     var positions = ["ANDROID", "IOS", "OTHER", "PM", "SALES", "TESTER", "WEB"]
     var contact1 = CNContact()
     let resource = EmployeeResource()
+    var filteredData = [EmployeeData]()
+    var searchController = UISearchController(searchResultsController: nil)
 
     
     let refreshControl = UIRefreshControl()
@@ -25,16 +27,29 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        
         safeArea = view.safeAreaLayoutGuide
+        setupSearchController()
         setupTableView()
         loadData()
-        self.navigationController?.navigationBar.topItem?.title = "EmployeeDB"
-        self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 18)]
+        
+        
         refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
         tableView.addSubview(refreshControl)
-
+    }
+    
+    private func filterData(for searchText: String) {
+        let text = searchText.uppercased().replacingOccurrences(of: " ", with: "")
+        filteredData = viewModel.employees
+        filteredData = viewModel.dropDuplicates(list: filteredData).sorted { $0.lname < $1.lname }
+        filteredData = filteredData.filter {
+            ($0.fname.uppercased().contains(text)) ||
+            ($0.lname.uppercased().contains(text)) ||
+            ($0.fname.uppercased() + $0.lname.uppercased()).contains(text) ||
+            ($0.contact_details.email.uppercased().contains(text)) ||
+            ($0.position.uppercased().contains(text))
+        }
+        tableView.reloadData()
     }
     
     @objc func loadData(){
@@ -46,6 +61,18 @@ class ViewController: UIViewController {
                 self.refreshControl.endRefreshing()
             }
         }
+    }
+    
+    func setupSearchController(){
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.searchBar.placeholder = "Type name, email or position"
+        searchController.searchBar.barStyle = .black
+        searchController.searchBar.tintColor = .white
+        navigationItem.searchController = searchController
+        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
     }
     
     
@@ -69,12 +96,18 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return 1
+        }
         return viewModel.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
         let label = UILabel()
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return nil
+        }
         label.text = positions[section]
         vw.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -87,34 +120,61 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return filteredData.count
+        }
         let dict = viewModel.groupEmployee()
         return dict[positions[section]]?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as! EmpoyeeCell
+        if searchController.isActive && searchController.searchBar.text != "" {
+            let employee = filteredData[indexPath.row]
+            let fullName = employee.lname + " " + employee.fname
+            cell.textLabel?.text = fullName
+            cell.check(str: fullName)
+            return cell
+        }
         let dict = viewModel.groupEmployee()
-        
-        guard let datasource = dict[positions[indexPath.section]] else {
-            return UITableViewCell()
-        }
-        let fullName = datasource[indexPath.row].lname + " " + datasource[indexPath.row].fname
-        cell.check(str: fullName)
-        cell.textLabel?.text = fullName
-        cell.onTap = { [weak self] (contact) in
-            let vc = CNContactViewController(for: contact)
-            self?.navigationController?.pushViewController(vc, animated: true)
-        }
-        return cell
+            guard let datasource = dict[positions[indexPath.section]] else {
+                return UITableViewCell()
+            }
+            let fullName = datasource[indexPath.row].lname + " " + datasource[indexPath.row].fname
+            cell.check(str: fullName)
+            cell.textLabel?.text = fullName
+            cell.onTap = { [weak self] (contact) in
+                let vc = CNContactViewController(for: contact)
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+            return cell
     }
    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let dict = viewModel.groupEmployee()
-        let employee = dict[positions[indexPath.section]]?[indexPath.row]
+        var employee: EmployeeData?
+        if searchController.isActive && searchController.searchBar.text != "" {
+            employee = filteredData[indexPath.row]
+        } else {
+            employee = dict[positions[indexPath.section]]?[indexPath.row]
+            
+        }
         let employeeDetailVC = EmployeeDetailViewController()
         employeeDetailVC.employeeData = employee
         self.navigationController?.pushViewController(employeeDetailVC, animated: true)
         
+    }
+}
+extension ViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterData(for: searchController.searchBar.text ?? "")
+    }
+}
+
+extension ViewController: UISearchBarDelegate{
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        setupSearchController()
     }
 }
 

@@ -12,7 +12,7 @@ class EmployeeViewModel {
     private var resource = EmployeeResource()
     var employees = [EmployeeData]()
     var contact: CNContact?
-
+    
     
     func numberOfSections() -> Int {
         var count = 0
@@ -50,9 +50,23 @@ class EmployeeViewModel {
                 }
             }
             employeeArray =  employeeArray.sorted { $0.lname < $1.lname }
-            datasource[position] = employeeArray
+            datasource[position] = dropDuplicates(list: employeeArray)
         }
         return datasource
+    }
+    
+    func dropDuplicates(list: [EmployeeData]) -> [EmployeeData]{
+        var checkSet = Set<String>()
+        var new: [EmployeeData] = []
+        for employee in list{
+            let fullName = employee.lname + employee.fname
+            if checkSet.contains(fullName.lowercased()){
+                continue
+            }
+            checkSet.insert(fullName.lowercased())
+            new.append(employee)
+        }
+        return new
     }
     
     func fetchPhoneContacts() -> [CNContact]{

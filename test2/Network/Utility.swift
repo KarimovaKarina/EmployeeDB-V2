@@ -17,7 +17,6 @@ struct HttpUtility {
         URLSession.shared.dataTask(with: urlRequest) { (serverData, urlResponse, error) in
             if(error == nil && serverData != nil){
                 do {
-                    //debugPrint(String(data: serverData!, encoding: .utf8))
                    let result = try JSONDecoder().decode(T.self, from: serverData!)
                     completionHandler(result)
                 } catch {
