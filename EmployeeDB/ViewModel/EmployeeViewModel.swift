@@ -12,6 +12,7 @@ class EmployeeViewModel {
     private var resource = EmployeeResource()
     var employees = [EmployeeData]()
     var contact: CNContact?
+    var positions = [String]()
     
     
     func numberOfSections() -> Int {
@@ -23,6 +24,7 @@ class EmployeeViewModel {
             }
             setOfPositions.insert(employee.position)
         }
+        positions = Array(setOfPositions).sorted { $0 < $1 }
         return setOfPositions.count
     }
     
@@ -40,8 +42,7 @@ class EmployeeViewModel {
     
     
     func groupEmployee() -> [String:[EmployeeData]] {
-        var datasource =  [String: [EmployeeData]]()
-        let positions = ["ANDROID", "IOS", "OTHER", "PM", "SALES", "TESTER", "WEB"]
+        var groupedEmployees =  [String: [EmployeeData]]()
         for position in positions {
             var employeeArray = [EmployeeData]()
             for employee in employees {
@@ -50,33 +51,32 @@ class EmployeeViewModel {
                 }
             }
             employeeArray =  employeeArray.sorted { $0.lname < $1.lname }
-            datasource[position] = dropDuplicates(list: employeeArray)
+            groupedEmployees[position] = dropDuplicates(from: employeeArray) 
         }
-        return datasource
+        return groupedEmployees
     }
     
-    func dropDuplicates(list: [EmployeeData]) -> [EmployeeData]{
+    func dropDuplicates(from list: [EmployeeData]) -> [EmployeeData]{
         var checkSet = Set<String>()
-        var new: [EmployeeData] = []
+        var allDataWithoutDuplicates: [EmployeeData] = []
         for employee in list{
             let fullName = employee.lname + employee.fname
             if checkSet.contains(fullName.lowercased()){
                 continue
             }
             checkSet.insert(fullName.lowercased())
-            new.append(employee)
+            allDataWithoutDuplicates.append(employee)
         }
-        return new
+        return allDataWithoutDuplicates
     }
     
     func fetchPhoneContacts() -> [CNContact]{
         let contactStore = CNContactStore()
         var contacts = [CNContact]()
-//        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)]
-        let keys2: [CNKeyDescriptor] = [CNContactViewController.descriptorForRequiredKeys()]
-
-        let request = CNContactFetchRequest(keysToFetch: keys2)
-
+        let keys: [CNKeyDescriptor] = [CNContactViewController.descriptorForRequiredKeys()]
+        
+        let request = CNContactFetchRequest(keysToFetch: keys)
+        
         do {
             try contactStore.enumerateContacts(with: request) { (contact, stop) in
                 contacts.append(contact)

@@ -15,7 +15,7 @@ class EmpoyeeCell: UITableViewCell {
     let contactsIcon = UIButton(type: .custom)
     var contacts = EmployeeViewModel()
     var onTap: ((CNContact) -> Void)?
-
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style , reuseIdentifier: reuseIdentifier)
@@ -29,24 +29,22 @@ class EmpoyeeCell: UITableViewCell {
     func setupView(){
         safeArea = layoutMarginsGuide
         setupButton()
-        
     }
-
+    
     func setupButton(){
         
-        let imageName = "contact-book"
-        contactsIcon.setImage(UIImage(named: imageName), for: .normal)
+        contactsIcon.setImage(UIImage(named: K.contactIcon), for: .normal)
         
         contentView.addSubview(contactsIcon)
-
+        
         contactsIcon.translatesAutoresizingMaskIntoConstraints = false
         contactsIcon.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
         contactsIcon.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         contactsIcon.widthAnchor.constraint(equalToConstant: 35).isActive = true
         contactsIcon.heightAnchor.constraint(equalToConstant: 35).isActive = true
         contactsIcon.addTarget(self,
-                                action: #selector(buttonAction),
-                                for: .touchUpInside)
+                               action: #selector(buttonAction),
+                               for: .touchUpInside)
     }
     
     func check(str: String){

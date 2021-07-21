@@ -12,17 +12,15 @@ import ContactsUI
 
 class EmployeeListViewController: UIViewController {
     
-    let tableView = UITableView()
-    var safeArea: UILayoutGuide!
     private var viewModel = EmployeeViewModel()
-    var positions = ["ANDROID", "IOS", "OTHER", "PM", "SALES", "TESTER", "WEB"]
-    var contact1 = CNContact()
-    let resource = EmployeeResource()
-    var filteredData = [EmployeeData]()
+    var safeArea: UILayoutGuide!
+    let tableView = UITableView()
     var searchController = UISearchController(searchResultsController: nil)
-
-    
     let refreshControl = UIRefreshControl()
+    let resource = EmployeeResource()
+    var groupedEmployees = [String: [EmployeeData]]()
+    var filteredData = [EmployeeData]() //for searchBar
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,23 +29,32 @@ class EmployeeListViewController: UIViewController {
         setupSearchController()
         setupTableView()
         loadData()
-        
-        refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
-        tableView.addSubview(refreshControl)
+        setupRefreshControl()
     }
     
     private func filterData(for searchText: String) {
-        let text = searchText.uppercased().replacingOccurrences(of: " ", with: "")
-        filteredData = viewModel.employees
-        filteredData = viewModel.dropDuplicates(list: filteredData).sorted { $0.lname < $1.lname }
-        filteredData = filteredData.filter {
+        
+        let text = searchText.uppercased()
+        let allData = viewModel.employees
+        let allDataWithoutDuplicates = viewModel.dropDuplicates(from: allData).sorted { $0.lname < $1.lname }
+        filteredData = allDataWithoutDuplicates.filter {
             ($0.fname.uppercased().contains(text)) ||
-            ($0.lname.uppercased().contains(text)) ||
-            ($0.fname.uppercased() + $0.lname.uppercased()).contains(text) ||
-            ($0.contact_details.email.uppercased().contains(text)) ||
-            ($0.position.uppercased().contains(text))
+                ($0.lname.uppercased().contains(text)) ||
+                ($0.fname.uppercased() + $0.lname.uppercased()).contains(text) ||
+                ($0.contact_details.email.uppercased().contains(text)) ||
+                ($0.position.uppercased().contains(text)) ||
+                ($0.projects != nil && $0.projects!.contains(where: { project in
+                    project.uppercased().contains(text)
+                }))
         }
         tableView.reloadData()
+    }
+    
+    func setupRefreshControl(){
+        refreshControl.addTarget(self,
+                                 action: #selector(loadData),
+                                 for: .valueChanged)
+        tableView.addSubview(refreshControl)
     }
     
     @objc func loadData(){
@@ -105,12 +112,14 @@ extension EmployeeListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let vw = UIView()
-        let label = UILabel()
+        
         if searchController.isActive && searchController.searchBar.text != "" {
             return nil
         }
-        label.text = positions[section]
+        
+        let vw = UIView()
+        let label = UILabel()
+        label.text = viewModel.positions[section]
         vw.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.leadingAnchor.constraint(equalTo: vw.leadingAnchor, constant: 18).isActive = true
@@ -125,11 +134,13 @@ extension EmployeeListViewController: UITableViewDataSource, UITableViewDelegate
         if searchController.isActive && searchController.searchBar.text != "" {
             return filteredData.count
         }
-        let dict = viewModel.groupEmployee()
-        return dict[positions[section]]?.count ?? 0
+        groupedEmployees = viewModel.groupEmployee()
+        return groupedEmployees[viewModel.positions[section]]?.count ?? 0
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath) as! EmpoyeeCell
         if searchController.isActive && searchController.searchBar.text != "" {
             let employee = filteredData[indexPath.row]
@@ -138,47 +149,52 @@ extension EmployeeListViewController: UITableViewDataSource, UITableViewDelegate
             cell.check(str: fullName)
             return cell
         }
-        let dict = viewModel.groupEmployee()
-            guard let datasource = dict[positions[indexPath.section]] else {
-                return UITableViewCell()
-            }
-            let fullName = datasource[indexPath.row].lname + " " + datasource[indexPath.row].fname
-            cell.check(str: fullName)
-            cell.textLabel?.text = fullName
-            cell.onTap = { [weak self] (contact) in
-                let vc = CNContactViewController(for: contact)
-                vc.navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-                self?.navigationController?.pushViewController(vc, animated: true)
-            }
-            return cell
+        guard let listOfEmployees = groupedEmployees[viewModel.positions[indexPath.section]] else {
+            return UITableViewCell()
+        }
+        let fullName = listOfEmployees[indexPath.row].lname + " " + listOfEmployees[indexPath.row].fname
+        cell.check(str: fullName)
+        cell.textLabel?.text = fullName
+        cell.onTap = { [weak self] (contact) in
+            let vc = CNContactViewController(for: contact)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+        return cell
     }
-   
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let dict = viewModel.groupEmployee()
+        
         var employee: EmployeeData?
         if searchController.isActive && searchController.searchBar.text != "" {
             employee = filteredData[indexPath.row]
         } else {
-            employee = dict[positions[indexPath.section]]?[indexPath.row]
-            
+            employee = groupedEmployees[viewModel.positions[indexPath.section]]?[indexPath.row]
         }
+        
         let employeeDetailVC = EmployeeDetailViewController()
         employeeDetailVC.employeeData = employee
         self.navigationController?.pushViewController(employeeDetailVC, animated: true)
         
     }
 }
+
+// MARK: - UISearchResultsUpdating, UISearchBarDelegate
+
 extension EmployeeListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         filterData(for: searchController.searchBar.text ?? "")
     }
+    
 }
 
 extension EmployeeListViewController: UISearchBarDelegate{
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         setupSearchController()
     }
+    
 }
 
 
