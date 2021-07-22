@@ -17,10 +17,9 @@ class EmployeeListViewController: UIViewController {
     let tableView = UITableView()
     var searchController = UISearchController(searchResultsController: nil)
     let refreshControl = UIRefreshControl()
-    let resource = EmployeeResource()
+    let resource = ApiService()
     var groupedEmployees = [String: [EmployeeData]]()
     var filteredData = [EmployeeData]() //for searchBar
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,17 +33,16 @@ class EmployeeListViewController: UIViewController {
     
     private func filterData(for searchText: String) {
         
-        let text = searchText.uppercased()
+        let text = searchText.uppercased().replacingOccurrences(of: " ", with: "")
         let allData = viewModel.employees
-        let allDataWithoutDuplicates = viewModel.dropDuplicates(from: allData).sorted { $0.lname < $1.lname }
+        let allDataWithoutDuplicates = allData.unique(map: {$0.fname.uppercased() + $0.lname.uppercased()}).sorted { $0.lname < $1.lname }
         filteredData = allDataWithoutDuplicates.filter {
-            ($0.fname.uppercased().contains(text)) ||
-                ($0.lname.uppercased().contains(text)) ||
-                ($0.fname.uppercased() + $0.lname.uppercased()).contains(text) ||
+                (($0.lname.uppercased() + $0.fname.uppercased()).contains(text)) ||
+                (($0.fname.uppercased() + $0.lname.uppercased()).contains(text)) ||
                 ($0.contact_details.email.uppercased().contains(text)) ||
                 ($0.position.uppercased().contains(text)) ||
                 ($0.projects != nil && $0.projects!.contains(where: { project in
-                    project.uppercased().contains(text)
+                    project.uppercased().replacingOccurrences(of: " ", with: "").contains(text)
                 }))
         }
         tableView.reloadData()
@@ -72,7 +70,7 @@ class EmployeeListViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "Type name, email or position"
+        searchController.searchBar.placeholder = "Type name, email, position or project"
         searchController.searchBar.tintColor = .black
         searchController.searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         

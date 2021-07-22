@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct EmployeeResource {
+struct ApiService {
     
     func getEmployee(completion: @escaping(_ result: [EmployeeData]?)-> Void)
     {

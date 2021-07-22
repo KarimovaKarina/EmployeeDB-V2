@@ -11,7 +11,8 @@ struct EmployeesList: Codable {
     let employees: [EmployeeData]
 }
 
-struct EmployeeData: Codable {
+struct EmployeeData: Codable{
+    
     let fname: String
     let lname: String
     let position: String
@@ -24,3 +25,14 @@ struct Contact: Codable {
     let phone: String?
 }
 
+extension EmployeeData: Hashable, Equatable{
+    static func ==(lhs: EmployeeData, rhs: EmployeeData) -> Bool {
+        return lhs.fname == rhs.fname && lhs.lname == rhs.lname && lhs.position == rhs.position
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(fname)
+        hasher.combine(lname)
+        hasher.combine(position)
+    }
+
+}

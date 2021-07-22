@@ -9,31 +9,19 @@ import Foundation
 import ContactsUI
 
 class EmployeeViewModel {
-    private var resource = EmployeeResource()
+    private var resource = ApiService()
     var employees = [EmployeeData]()
     var contact: CNContact?
     var positions = [String]()
     
-    
     func numberOfSections() -> Int {
-        var count = 0
-        var setOfPositions = Set<String>()
-        for employee in employees {
-            if setOfPositions.contains(employee.position) {
-                count += 1
-            }
-            setOfPositions.insert(employee.position)
+        let uniqueEmployeesByPosition = employees.unique(map: { $0.position })
+        var sections = [String]()
+        for employee in uniqueEmployeesByPosition {
+            sections.append(employee.position)
         }
-        positions = Array(setOfPositions).sorted { $0 < $1 }
-        return setOfPositions.count
-    }
-    
-    func numberOfRowsInSection(section: Int) -> Int {
-        
-        if employees.count != 0 {
-            return employees.count
-        }
-        return 0
+        positions = sections.sorted()
+        return sections.count
     }
     
     func cellForRowAt (indexPath: IndexPath) -> EmployeeData {
@@ -43,6 +31,7 @@ class EmployeeViewModel {
     
     func groupEmployee() -> [String:[EmployeeData]] {
         var groupedEmployees =  [String: [EmployeeData]]()
+        employees = employees.unique(map: {$0.fname.uppercased() + $0.lname.uppercased()})
         for position in positions {
             var employeeArray = [EmployeeData]()
             for employee in employees {
@@ -50,24 +39,9 @@ class EmployeeViewModel {
                     employeeArray.append(employee)
                 }
             }
-            employeeArray =  employeeArray.sorted { $0.lname < $1.lname }
-            groupedEmployees[position] = dropDuplicates(from: employeeArray) 
+            groupedEmployees[position] = employeeArray.sorted { $0.lname < $1.lname }
         }
         return groupedEmployees
-    }
-    
-    func dropDuplicates(from list: [EmployeeData]) -> [EmployeeData]{
-        var checkSet = Set<String>()
-        var allDataWithoutDuplicates: [EmployeeData] = []
-        for employee in list{
-            let fullName = employee.lname + employee.fname
-            if checkSet.contains(fullName.lowercased()){
-                continue
-            }
-            checkSet.insert(fullName.lowercased())
-            allDataWithoutDuplicates.append(employee)
-        }
-        return allDataWithoutDuplicates
     }
     
     func fetchPhoneContacts() -> [CNContact]{
@@ -100,3 +74,21 @@ class EmployeeViewModel {
         return false
     }
 }
+
+// MARK: - Extesion for Array to drop duplicates in [EmployeesData]()
+
+extension Array {
+    func unique<T:Hashable>(map: ((Element) -> (T)))  -> [Element] {
+        var set = Set<T>()
+        var arrayOrdered = [Element]()
+        for value in self {
+            if !set.contains(map(value)) {
+                set.insert(map(value))
+                arrayOrdered.append(value)
+            }
+        }
+
+        return arrayOrdered
+    }
+}
+
