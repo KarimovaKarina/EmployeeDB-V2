@@ -79,6 +79,8 @@ class EmployeeDetailViewController: UIViewController {
     
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
 extension EmployeeDetailViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
