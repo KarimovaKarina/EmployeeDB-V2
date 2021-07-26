@@ -2,10 +2,10 @@
 #### An application that displays a list of employees from a remote server along with their details. If an employee exists in the phone contacts database, the user can open the native contacts display form.
 
 ## The requirements to compile and run program: 
-### clone HTTPS URL and and open EmployeeDB.xcodeproj
+#### clone HTTPS URL and and open EmployeeDB.xcodeproj
 
 ## Archirecture pattern: 
-### MVVM
+#### MVVM
 
 ## Views: 
-### programatically
+#### programatically
